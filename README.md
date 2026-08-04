@@ -60,6 +60,29 @@ Confirm these exist in your target project:
 - `CLAUDE.md`
 - `.cursor/rules/memory-protocol.mdc`
 
+## One-Time Setup
+
+### 1 — Open this folder in Claude Code
+
+1. Open VS Code
+2. File -> Open Folder -> select this folder
+3. Click the Claude Code icon in the bottom status bar
+
+### 2 — Ask Claude to set you up
+
+Type this in the Claude panel:
+
+> "Walk me through setup"
+
+Claude will guide you through everything interactively, including creating a Connected App, configuring credentials, and verifying your connection.
+
+You do not need to follow `SETUP.md` manually. Claude handles setup step by step and asks for your input only when needed.
+
+You only run setup once per Salesforce org.
+
+`next_orgs.json` contains your credentials — never share it or commit it. It is excluded by `.gitignore`.
+
+
 ## Start the First Session
 
 Use this prompt:
