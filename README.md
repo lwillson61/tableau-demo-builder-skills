@@ -1,4 +1,4 @@
-# Linus Tableau Demo Builder Skills
+# End to End Tableau Demo Builder
 
 Portable skill pack for Cursor and Claude Code to build high-quality, end-to-end Tableau Next and Tableau Pulse demos.
 
