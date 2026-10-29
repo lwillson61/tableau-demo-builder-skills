@@ -1,165 +1,56 @@
-# End to End Tableau Demo Builder
+# Tableau Demo Skills
 
-Portable skill pack for Cursor and Claude Code to build high-quality, end-to-end Tableau Next and Tableau Pulse demos.
+Agent skills for building custom Tableau Next, Tableau Pulse and Tableau Cloud demos: from customer discovery to a rehearsed demo where the dashboard shows *what* and *where*, the analytics agent finds *who* and *why*, and the story ends with a Salesforce record being created.
 
-This pack supports repeatable execution:
+They work with Claude Code, Claude.ai and Cursor, or any agent that reads `SKILL.md` files.
 
-`discovery -> story -> data -> ingest -> semantic layer -> dashboards/metrics -> critique -> memory`
+## Skills
 
----
+| Skill | What it does |
+|-------|--------------|
+| `end-to-end-demo-builder` | Runs the whole workflow and calls the skills below in order |
+| `discovery-industry-story` | Business-first discovery and a Tableau POV with personas and demo stories |
+| `financial-services-industry-expert` | Banking, credit union, wealth and insurance pain points, KPIs and talk tracks |
+| `insurance-industry-expert` | Insurance discovery by function and line of business |
+| `tableau-next-demo-design` | Aha Contract, agent questions, Salesforce actionability, demo script |
+| `data-cloud-ingest-semantic` | Seeded synthetic data, Data 360 ingest, semantic model |
+| `viz-design-playbook` | Chart choice and dashboard layout, including what each product can draw |
+| `tableau-pulse-demo-builder` | Pulse metrics and planted insights that Pulse actually surfaces |
+| `self-critique-devils-advocate` | P0/P1/P2 review of the plan and the finished build |
+| `tableau-platform-learnings` | Verified API shapes and traps for Tableau Next, Data 360, the agent, Pulse and Tableau Cloud |
 
-## Skills Catalog
+## Install
 
-| Skill | Purpose |
-|-------|---------|
-| `skills/end-to-end-demo-builder/SKILL.md` | Full orchestration of end-to-end demo builds |
-| `skills/discovery-industry-story/SKILL.md` | Discovery framework, POV, personas, and business questions |
-| `skills/data-cloud-ingest-semantic/SKILL.md` | Data generation, Data Cloud ingest, and semantic layer practices |
-| `skills/tableau-pulse-demo-builder/SKILL.md` | Tableau Pulse metric, group, and digest workflows |
-| `skills/viz-design-playbook/SKILL.md` | Chart selection guidance and visual design best practices |
-| `skills/self-critique-devils-advocate/SKILL.md` | Structured critique loop before final delivery |
+Copy the folders under `skills/` to one of:
 
----
-
-## Included Files
-
-- `memory/MEMORY.md`
-- `CLAUDE.md`
-- `.cursor/rules/memory-protocol.mdc`
-- `RUNBOOK.md`
-- `GITHUB_PUBLISHING_GUIDE.md`
-- `install.sh`
-- `install.ps1`
-
----
-
-## Quick Start
-
-## Install Into Your Project
-
-### macOS/Linux
+- **Claude Code:** `~/.claude/skills/` (all projects) or `<project>/.claude/skills/`
+- **Cursor:** `~/.cursor/skills/` or `<project>/.cursor/skills/`
+- **Claude.ai:** zip each skill folder and upload it under Settings › Capabilities › Skills
 
 ```bash
-bash install.sh /path/to/your/project
+git clone https://github.com/lwillson61/tableau-demo-builder-skills.git
+cp -R tableau-demo-builder-skills/skills/* ~/.claude/skills/
 ```
 
-### Windows PowerShell
+## Prerequisites
 
-```powershell
-.\install.ps1 C:\path\to\your\project
-```
+- A Salesforce org with Data 360 and Tableau Next, and the Analytics and Visualization V2 agent.
+- MCP servers connected in your agent:
+  - Tableau Next: `https://api.salesforce.com/platform/mcp/v1/analytics/tableau-next-pilot` (beta; turn on both the "Tableau Next" and "Tableau Next (Beta)" entries under Setup › MCP Servers)
+  - SObject All: `https://api.salesforce.com/platform/mcp/v1/platform/sobject-all`
+- For Pulse and Tableau Cloud demos: a Tableau Cloud site and a personal access token.
+- The hosted MCP servers need a token from an External Client App with the `MCP` scope (see `tableau-platform-learnings`).
 
-If no target path is provided, installation uses your current directory.
+## Use
 
-## Verify Installation
+Start with a prompt like:
 
-Confirm these exist in your target project:
+> Build a Tableau Next demo for a regional bank losing commercial deposits. Here are my discovery notes: …
 
-- `skills/`
-- `memory/MEMORY.md`
-- `CLAUDE.md`
-- `.cursor/rules/memory-protocol.mdc`
+The agent runs discovery, writes the Aha Contract for your approval, then builds and rehearses. Every demo produces `AHA_CONTRACT.md`, `DEMO_SCRIPT.md` and `OBJECT_MAP.md`.
 
-## One-Time Setup
+## Notes
 
-### 1 — Open this folder in Claude Code
-
-1. Open VS Code
-2. File -> Open Folder -> select this folder
-3. Click the Claude Code icon in the bottom status bar
-
-### 2 — Ask Claude to set you up
-
-Type this in the Claude panel:
-
-> "Walk me through setup"
-
-Claude will guide you through everything interactively, including creating a Connected App, configuring credentials, and verifying your connection.
-
-You do not need to follow `SETUP.md` manually. Claude handles setup step by step and asks for your input only when needed.
-
-You only run setup once per Salesforce org.
-
-`next_orgs.json` contains your credentials — never share it or commit it. It is excluded by `.gitignore`.
-
-
-## Start the First Session
-
-Use this prompt:
-
-> Use `skills/end-to-end-demo-builder/SKILL.md` for this session.  
-> Read `memory/MEMORY.md` first.  
-> Follow the workflow and update memory after each major milestone.
-
----
-
-## Recommended Workflow
-
-1. Discovery  
-   Use `discovery-industry-story` to define context, personas, and decision questions.
-
-2. Data + Ingest + Semantic Layer  
-   Use `data-cloud-ingest-semantic` to generate synthetic data, ingest into Data Cloud, and build the SDM.
-
-3. Build Demo Assets  
-   Tableau Next: dashboards, metrics, advanced visualizations.  
-   Tableau Pulse: metric catalogs, groups, and subscriptions.
-
-4. Visual Design Pass  
-   Use `viz-design-playbook` to validate chart choice and readability.
-
-5. Self-Critique  
-   Use `self-critique-devils-advocate` to identify and fix high-risk issues.
-
-6. Persist Learning  
-   Append outcomes and reusable patterns to `memory/MEMORY.md`.
-
----
-
-## Cursor and Claude Usage
-
-## Cursor
-
-- Skills are consumed from project `skills/`
-- `.cursor/rules/memory-protocol.mdc` enforces memory behavior
-
-## Claude Code
-
-- Use the same `skills/` and `memory/` structure in repo
-- `CLAUDE.md` enforces memory updates and quality gates
-
----
-
-## Memory Protocol
-
-This pack is intentionally stateful across sessions.
-
-1. Read `memory/MEMORY.md` at session start.
-2. Reuse prior learnings and avoid known failure modes.
-3. Append concise notes after each major milestone:
-   - discovery outcomes
-   - data generation and integration choices
-   - visualization decisions
-   - failures and fixes
-4. Add a final session log entry before finishing.
-
-If memory is not updated, the task is incomplete.
-
----
-
-## Who This Is For
-
-- Tableau Solutions Engineers
-- Demo architects in financial services and insurance
-- AI-assisted teams that need repeatable, high-quality demo delivery
-
----
-
-## Design Goal
-
-Enable another user or agent to reliably produce demos with:
-
-- clear business narrative
-- credible and reproducible data
-- technically valid Tableau Next and Tableau Pulse builds
-- strong visual design decisions
+- Tableau Next APIs and the MCP server are in beta and change often. The learnings were verified in live orgs in 2026; when the platform disagrees, trust the live response and update the file.
+- All example companies and people are fictional.
+- These skills aren't an official Salesforce product and aren't supported by Salesforce.
